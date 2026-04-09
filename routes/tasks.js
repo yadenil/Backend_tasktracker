@@ -69,5 +69,21 @@ router.delete('/:id', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
+router.get("/db-test", async (req, res) => {
+try {
+  // This simple query checks if the database is responding
+  const [rows] = await pool.query("SELECT 1 + 1 AS result");
+  res.json({
+    status: "success",
+    message: "Render is talking to Clever Cloud!",
+    data: rows,
+  });
+} catch (err) {
+  res.status(500).json({
+    status: "error",
+    message: "Connection failed",
+    error: err.message,
+  });
+}
+});
 module.exports = router;
